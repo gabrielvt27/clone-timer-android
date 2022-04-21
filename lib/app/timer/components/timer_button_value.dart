@@ -9,10 +9,11 @@ class TimerButtonValue extends StatelessWidget {
     this.buttonColor,
     this.textColor,
     this.onLongPress,
+    this.buttonSize = kDefaultPadding * 2.5,
     required this.onTap,
   }) : super(key: key);
 
-  final double buttonSize = kDefaultPadding * 2.5;
+  final double buttonSize;
 
   final String? text;
   final IconData? icon;

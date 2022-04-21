@@ -8,7 +8,13 @@ abstract class _TimerStoreBase with Store {
   String _timerValue = '0';
 
   @computed
-  bool get timerEmpty => _timerValue == '0';
+  bool get timerEmpty => _timerValue == '0' || _timerValue == '00';
+
+  @observable
+  bool showDelete = false;
+
+  @action
+  void setShowDelete(bool val) => showDelete = val;
 
   @action
   void setTimerValue(String val) {

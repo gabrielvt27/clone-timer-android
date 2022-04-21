@@ -59,8 +59,34 @@ mixin _$TimerStore on _TimerStoreBase, Store {
     });
   }
 
+  final _$showDeleteAtom = Atom(name: '_TimerStoreBase.showDelete');
+
+  @override
+  bool get showDelete {
+    _$showDeleteAtom.reportRead();
+    return super.showDelete;
+  }
+
+  @override
+  set showDelete(bool value) {
+    _$showDeleteAtom.reportWrite(value, super.showDelete, () {
+      super.showDelete = value;
+    });
+  }
+
   final _$_TimerStoreBaseActionController =
       ActionController(name: '_TimerStoreBase');
+
+  @override
+  void setShowDelete(bool val) {
+    final _$actionInfo = _$_TimerStoreBaseActionController.startAction(
+        name: '_TimerStoreBase.setShowDelete');
+    try {
+      return super.setShowDelete(val);
+    } finally {
+      _$_TimerStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setTimerValue(String val) {
@@ -98,6 +124,7 @@ mixin _$TimerStore on _TimerStoreBase, Store {
   @override
   String toString() {
     return '''
+showDelete: ${showDelete},
 timerEmpty: ${timerEmpty},
 timerValueDisplay: ${timerValueDisplay},
 seconds: ${seconds},

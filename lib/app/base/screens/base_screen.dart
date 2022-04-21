@@ -43,9 +43,9 @@ class BaseScreen extends StatelessWidget {
         controller: pageController,
         scrollDirection: Axis.vertical,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children: [
           CounterScreen(),
-          TimerScreen(),
+          const TimerScreen(),
         ],
       ),
     );
