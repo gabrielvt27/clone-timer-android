@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:mobx/mobx.dart';
 part 'counter_store.g.dart';
 
@@ -28,4 +30,45 @@ abstract class _CounterStoreBase with Store {
 
   @computed
   Duration get timerSelected => timers[indexTimerSelected];
+
+  @observable
+  Duration? currentDuration;
+
+  @observable
+  Timer? currentTimer;
+
+  @observable
+  double timerPercentual = 1;
+
+  @action
+  void setCurrentTimer(Duration val) {
+    int timeInSecondsDecrement = val.inSeconds, count = 0, miliseconds = 10;
+    double auxTimerPercentual,
+        valPercentDecrement = (0.001 * miliseconds) / val.inSeconds;
+
+    timerPercentual = 1;
+
+    currentTimer = Timer.periodic(Duration(milliseconds: miliseconds), (timer) {
+      if (count == 1000) {
+        count = 0;
+
+        timeInSecondsDecrement--;
+
+        if (timeInSecondsDecrement == 0) {
+          timer.cancel();
+          currentDuration = null;
+        }
+
+        currentDuration = Duration(seconds: timeInSecondsDecrement);
+      } else {
+        count += miliseconds;
+      }
+      auxTimerPercentual = timerPercentual - valPercentDecrement;
+      if (auxTimerPercentual > 0) {
+        timerPercentual = auxTimerPercentual;
+      } else {
+        timerPercentual = 0;
+      }
+    });
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:timer/app/base/store/base_store.dart';
@@ -44,13 +43,22 @@ class CounterScreen extends StatelessWidget {
                         scrollDirection: Axis.vertical,
                         children: counterStore.timers
                             .asMap()
-                            .map((i, value) => MapEntry(
-                                i,
-                                Center(
-                                  child: CircularPercentIndicator(
+                            .map((i, value) {
+                              String timerVal =
+                                  (counterStore.currentDuration != null &&
+                                          i == counterStore.indexTimerSelected)
+                                      ? counterStore.currentDuration
+                                          .toString()
+                                          .replaceAll('.000000', '')
+                                      : counterStore.timers[i]
+                                          .toString()
+                                          .replaceAll('.000000', '');
+                              return MapEntry(i, Center(
+                                child: Observer(builder: (_) {
+                                  return CircularPercentIndicator(
                                     radius: 155,
                                     lineWidth: 10.0,
-                                    percent: 1.0,
+                                    percent: counterStore.timerPercentual,
                                     backgroundColor: AppColors.kBackGroundColor,
                                     progressColor: AppColors.kTextTimerColor,
                                     center: Padding(
@@ -64,18 +72,12 @@ class CounterScreen extends StatelessWidget {
                                           const SizedBox(
                                             height: 60,
                                           ),
-                                          Observer(
-                                            builder: (_) {
-                                              return Text(
-                                                counterStore.timers[i]
-                                                    .toString()
-                                                    .replaceAll('.000000', ''),
-                                                style: TextStyle(
-                                                  color: AppColors.kTextColor,
-                                                  fontSize: 60,
-                                                ),
-                                              );
-                                            },
+                                          Text(
+                                            timerVal,
+                                            style: TextStyle(
+                                              color: AppColors.kTextColor,
+                                              fontSize: 60,
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 60,
@@ -89,8 +91,10 @@ class CounterScreen extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                  ),
-                                )))
+                                  );
+                                }),
+                              ));
+                            })
                             .values
                             .toList(),
                       ),
@@ -167,7 +171,9 @@ class CounterScreen extends StatelessWidget {
                   buttonColor: AppColors.kPlayButtonColor,
                   textColor: AppColors.kTextPlayButtonColor,
                   buttonSize: kDefaultPadding * 3,
-                  onTap: () {},
+                  onTap: () {
+                    counterStore.setCurrentTimer(counterStore.timerSelected);
+                  },
                 ),
                 const Spacer(),
                 TimerButtonValue(

@@ -48,6 +48,51 @@ mixin _$CounterStore on _CounterStoreBase, Store {
     });
   }
 
+  final _$currentDurationAtom = Atom(name: '_CounterStoreBase.currentDuration');
+
+  @override
+  Duration? get currentDuration {
+    _$currentDurationAtom.reportRead();
+    return super.currentDuration;
+  }
+
+  @override
+  set currentDuration(Duration? value) {
+    _$currentDurationAtom.reportWrite(value, super.currentDuration, () {
+      super.currentDuration = value;
+    });
+  }
+
+  final _$currentTimerAtom = Atom(name: '_CounterStoreBase.currentTimer');
+
+  @override
+  Timer? get currentTimer {
+    _$currentTimerAtom.reportRead();
+    return super.currentTimer;
+  }
+
+  @override
+  set currentTimer(Timer? value) {
+    _$currentTimerAtom.reportWrite(value, super.currentTimer, () {
+      super.currentTimer = value;
+    });
+  }
+
+  final _$timerPercentualAtom = Atom(name: '_CounterStoreBase.timerPercentual');
+
+  @override
+  double get timerPercentual {
+    _$timerPercentualAtom.reportRead();
+    return super.timerPercentual;
+  }
+
+  @override
+  set timerPercentual(double value) {
+    _$timerPercentualAtom.reportWrite(value, super.timerPercentual, () {
+      super.timerPercentual = value;
+    });
+  }
+
   final _$_CounterStoreBaseActionController =
       ActionController(name: '_CounterStoreBase');
 
@@ -85,10 +130,24 @@ mixin _$CounterStore on _CounterStoreBase, Store {
   }
 
   @override
+  void setCurrentTimer(Duration val) {
+    final _$actionInfo = _$_CounterStoreBaseActionController.startAction(
+        name: '_CounterStoreBase.setCurrentTimer');
+    try {
+      return super.setCurrentTimer(val);
+    } finally {
+      _$_CounterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 jumpToPage: ${jumpToPage},
 indexTimerSelected: ${indexTimerSelected},
+currentDuration: ${currentDuration},
+currentTimer: ${currentTimer},
+timerPercentual: ${timerPercentual},
 timerSelected: ${timerSelected}
     ''';
   }
