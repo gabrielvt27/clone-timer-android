@@ -49,25 +49,26 @@ abstract class _CounterStoreBase with Store {
     timerPercentual = 1;
 
     currentTimer = Timer.periodic(Duration(milliseconds: miliseconds), (timer) {
-      if (count == 1000) {
-        count = 0;
-
-        timeInSecondsDecrement--;
-
-        if (timeInSecondsDecrement == 0) {
-          timer.cancel();
-          currentDuration = null;
-        }
-
-        currentDuration = Duration(seconds: timeInSecondsDecrement);
-      } else {
-        count += miliseconds;
-      }
       auxTimerPercentual = timerPercentual - valPercentDecrement;
       if (auxTimerPercentual > 0) {
         timerPercentual = auxTimerPercentual;
       } else {
         timerPercentual = 0;
+      }
+      if (count == 1000) {
+        count = 0;
+
+        timeInSecondsDecrement--;
+
+        currentDuration = Duration(seconds: timeInSecondsDecrement);
+
+        if (timeInSecondsDecrement == 0) {
+          timer.cancel();
+          currentDuration = null;
+          timerPercentual = 1;
+        }
+      } else {
+        count += miliseconds;
       }
     });
   }

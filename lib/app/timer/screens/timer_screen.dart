@@ -25,11 +25,11 @@ class TimerScreen extends StatelessWidget {
             children: [
               const Clock(),
               const TimerButton(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  timerStore.showDelete
-                      ? TimerButtonValue(
+              (timerStore.showDelete)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TimerButtonValue(
                           icon: Icons.delete_outline_rounded,
                           buttonColor: const Color.fromRGBO(192, 234, 205, 1),
                           textColor: Colors.black,
@@ -38,22 +38,29 @@ class TimerScreen extends StatelessWidget {
                             final baseStore = context.read<BaseStore>();
                             baseStore.setPage(0);
                           },
-                        )
-                      : Container(),
-                  const Spacer(),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 180),
-                    child: timerStore.timerEmpty
-                        ? const SizedBox(
-                            height: kDefaultPadding * 2.5,
-                          )
-                        : const PlayButton(),
-                  ),
-                  const Spacer(),
-                  Container(),
-                  const Spacer(),
-                ],
-              ),
+                        ),
+                        const Spacer(),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 180),
+                          child: timerStore.timerEmpty
+                              ? const SizedBox(
+                                  height: kDefaultPadding * 2.5,
+                                )
+                              : const PlayButton(),
+                        ),
+                        const Spacer(),
+                        Container(),
+                        const Spacer(),
+                      ],
+                    )
+                  : AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 180),
+                      child: timerStore.timerEmpty
+                          ? const SizedBox(
+                              height: kDefaultPadding * 2.5,
+                            )
+                          : const PlayButton(),
+                    ),
             ],
           );
         },
